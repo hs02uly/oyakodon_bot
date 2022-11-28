@@ -46,10 +46,11 @@ client.on("messageCreate", async message => {
         if (cmd === `test`){
             return;
         }
+        //                  commands                    //
+
     }catch(e){
         return message.reply(e.message)
     }
 })
-//                  commands                    //
 
 client.login(process.env.TOKEN)
