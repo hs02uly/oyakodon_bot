@@ -34,7 +34,7 @@ client.on("messageCreate", async message => {
         }
         if(cmd === `ping`){
             const ping = new EmbedBuilder()
-                .setTitle("Ping")
+                .setTitle("Pong")
                 .addFields(
                     { name: "WebSocket", value: `${client.ws.ping}ms`, inline: true},
                     { name: "コマンド受信", value: `${new Date() - message.createdTimestamp}ms`, inline: true}
