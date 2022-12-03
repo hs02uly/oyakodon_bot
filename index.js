@@ -1,6 +1,5 @@
 //もしかしてmiyuさんだったりします？
 //公開しないでぴえん
-
 const http = require("http")
 http.createServer(function (req, res) {
     res.write("online")
@@ -146,6 +145,7 @@ client.on("messageCreate", async message => {
                 break;
         }
     }catch(e){
+        console.log(e.message)
         return message.reply(e.message);
     }
 })
