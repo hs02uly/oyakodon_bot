@@ -6,7 +6,7 @@ http.createServer(function (req, res) {
     res.end()
 }).listen(8080)
 
-const { Client, EmbedBuilder, GatewayIntentBits, Partials } = require("discord.js");
+const { Client, EmbedBuilder, GatewayIntentBits, Partials, MessageFlagsBitField } = require("discord.js");
 const { Guilds, GuildMessages, MessageContent } = GatewayIntentBits;
 const client = new Client({
     "intents": [Guilds, GuildMessages, MessageContent],
@@ -23,6 +23,7 @@ const c = "#73efff"
 let args = []
 client.on("messageCreate", async message => {
     try{
+        let d = new Date();
         const p = "o."
         const cmd = message.content.slice(2).split(" ")[0]
         args = message.content.split(" ").slice(1)
@@ -34,7 +35,7 @@ client.on("messageCreate", async message => {
             if(message.content.includes("youtube" || "YouTube" || "ニコ動")) return message.reply("投稿者としての自覚はないんか？");
             if(message.content.includes("彼女" || "食べ")) return message.reply("よかったら僕を食べませんか");
             if(message.content.includes("解決しな")) return message.reply("問題が解決しなかったら製作者を交換すればいいですね");
-            if(message.content.includes("🤔🤔")) return message.reply("出たな！妖怪シンキングマン");
+            if(message.content.includes("🤔🤔")) return message.reply("出たな！妖怪シンキングマン！");
             if(message.mentions.users.has(client.user.id)) return message.reply("メンションしないでください\n禿げさせますよ");
         }
 
@@ -44,12 +45,14 @@ client.on("messageCreate", async message => {
         //                  commands                    //
         switch(cmd){
             case "say":
-                if (!args[0] && !message.attachment.size) return; //文字なし&ファイルの添付なしの時無視
-                if (message.attachment.size){
-                    const files = message.attachment
-                    return (!args[0] ? message.channel.send({ files }) :message.channel.send({ content: args.join(" "), files: [files] }))
-                }else return message.channel.send(args.join(" "));
+                if (!args[0]) return message.reply("引数が無効です") //文字なし無視
+                return message.channel.send(args.join(" "));
                 break;
+            // case "img":
+            //     if (!message.attachments.size) return message.reply("画像がありません")
+            //     const files = message.attachments
+            //     return message.reply({ files: [files] })
+            //     break;
 
             case "ping":
                 const ping = new EmbedBuilder()
@@ -68,13 +71,36 @@ client.on("messageCreate", async message => {
                     .setTitle("Help/commands")
                     .setDescription("親子丼氏の許可のもと作成しています")
                     .addFields(
-                        { name: "okd", value: `ランダムで親子丼氏の名言を送信します。名言募集中です\n引数: list(listを表示します), \nなんか数字(その数字番目のokd名言を送信します`, inline: true},
-                        { name: "say", value: `botになにか言わせれます\nなぜかスペースに対応していません`, inline: true},
-                        { name: "ping", value: "ping値を測ります", inline: true}
+                        { name: "okd", value: `ランダムで親子丼氏の名言を送信します。名言募集中です\n引数: list(listを表示します), \n数字(その数字番目のokd名言を送信します`, inline: true},
+                        { name: "say", value: `botになにか言わせられます`, inline: true},
+                        { name: "ping", value: "ping値を測ります", inline: true},
+                        { name: "alarm", value: "アラームを設定します。setTimeoutなので再起動するとリセットされます\n`ex. o.alarm 30h title`", inline: true}
                     )
                     .setColor(c)
                     .setTimestamp()
                 return message.reply({embeds: [help]});
+                break;
+
+            case "alarm":
+                if (!args[0]) return message.reply("引数を指定してください")
+                let alarm
+                const uni = args[0].slice(-1)
+                const time = Number(args[0].slice(0, -1))
+                if (!isNaN(args[0])) return message.reply("単位が必要です")
+                if (isNaN(time) || !time) return message.reply("引数が無効です")
+                if (time > 999) return message.reply("値が大きすぎます")
+
+                const m = args[1]
+
+                if (uni.match(/s/)) alarm = time
+                if (uni.match(/m/)) alarm = time*60
+                if (uni.match(/h/)) alarm = time*3600
+                if (!uni.match(/h|m|s/)) return message.reply("なんだその単位は")
+
+                message.reply(`アラームを${args[0]}後に設定しました`)
+                setTimeout(() => {
+                    message.channel.send(`通知: <@${message.author.id}> ${m}`)
+                }, alarm*1000);
                 break;
 
             case "sayc":
@@ -86,12 +112,19 @@ client.on("messageCreate", async message => {
                 }
                 break;
 
+                // case "imgc":
+                //     if(message.author.id == "888652878590406656"){
+                //         if (!message.attachments.size) return message.reply("画像がありません")
+                //         const files = message.attachments
+                //         return message.reply({ files: [files] })
+                //     }
+                //     break;
+
             case "test":
                 console.log("反応あり");
                 break;
 
             case "okd":
-                let d = new Date();
                 let oyakodonM = [
                     "息の根が終了しました",
                     "あ、勝手に慈悲受け取るマンです",
@@ -125,18 +158,36 @@ client.on("messageCreate", async message => {
                     "素晴らしい人材だ.....！\nあなたも社畜になりませんか？",
                     "通常は時給-1000円程度の賠償が発生しますが、社畜になると免除されます！",
                     "皆さんが油断している隙に防城戦ワールドを開きます",
-                    // `${d.getMinutes()}:${d.getMinutes()}になりました\n約束のブツを出してください`
-                    // `親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`
+                    "助走をつけて殴りますよ",
+                    "サーバールール第3項によって抹消します",
+                    "貧弱やのう",
+                    "ﾁｯ",
+                    "あなたを永久に許しません",
+                    "暇の押し売りやめてください",
+                    "お命頂戴",
+                    "もう全部破壊しますね",
+                    "泣いてる暇があるなら早く制作進めたらどうですか？",
+                    "誰ですか？進捗が無いとほざいてるのは",
+                    "息の根を止めます？破壊します？",
+                    "おのれもやん.....\nいや、己がもやんみたいなミスを犯しました",
+                    "メンションしたら警告ロールがもらえるんですか！？",
+                    "圧縮されたい人います？",
+                    `${d.getHours()}:${d.getMinutes()}になりました\n約束のブツを出してください`,
+                    `親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`
                 ];
                 if(args[0] === "list"){
                     const okd = new EmbedBuilder()
                         .setColor(c)
-                        .addFields({ name: "一覧", value: oyakodonM.join("\n") });
+                        .setTitle("一覧")
+                        .addFields({
+                            name: `現在${oyakodonM.length}の親子丼名言が保存されています\n絶賛募集中です`,
+                            value: oyakodonM.map(value=>{return `${oyakodonM.indexOf(value)+1}: ${value}`}).join("\n")
+                        });
                     return message.reply({embeds: [okd]});
                 }
                 if(!isNaN(args[0])){
-                    if (Number(args[0])-1 > oyakodonM.length || Number(args[0])-1 < 0) return;
-                    return message.reply(oyakodonM[Number(args[0])-1])
+                    if (Math.trunc(args[0])-1 > oyakodonM.length || Math.trunc(args[0])-1 < 0) return message.reply("その数字は無効です")
+                    return message.reply(oyakodonM[Math.trunc(args[0])-1])
                 }else{
                     return message.reply(oyakodonM[Math.floor(Math.random() * oyakodonM.length)]);
                 }
