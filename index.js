@@ -6,7 +6,7 @@ http.createServer(function (req, res) {
     res.end()
 }).listen(8080)
 
-const { Client, EmbedBuilder, GatewayIntentBits, Partials, MessageFlagsBitField } = require("discord.js");
+const { Client, EmbedBuilder, GatewayIntentBits, Partials } = require("discord.js");
 const { Guilds, GuildMessages, MessageContent } = GatewayIntentBits;
 const client = new Client({
     "intents": [Guilds, GuildMessages, MessageContent],
