@@ -36,6 +36,7 @@ client.on("messageCreate", async message => {
             if(message.content.includes("彼女" || "食べ")) return message.reply("よかったら僕を食べませんか");
             if(message.content.includes("解決しな")) return message.reply("問題が解決しなかったら製作者を交換すればいいですね");
             if(message.content.includes("🤔🤔")) return message.reply("出たな！妖怪シンキングマン！");
+            if(message.content.includes("カスコード")) return message.reply("もうやめて！梅干しのライフはもう0よ！！");
             if(message.mentions.users.has(client.user.id)) return message.reply("メンションしないでください\n禿げさせますよ");
         }
 
