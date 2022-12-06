@@ -117,7 +117,7 @@ client.on("messageCreate", async message => {
                 break;
 
             case "okd":
-                let oyakodonM = [
+                const oyakodonM = [
                     "息の根が終了しました",
                     "あ、勝手に慈悲受け取るマンです",
                     "は？",
@@ -195,7 +195,7 @@ client.on("messageCreate", async message => {
         }
     }catch(e){
         console.log(e.message)
-        return message.reply(`${e.message}\n<@888652878590406656> エラー出たぞ？ﾃﾒｪちゃんとバグ確認しろしばくぞﾃﾒｪオラ`);
+        return message.reply(`${e.message}\n<@888652878590406656> エラーが出ましたよ`);
     }
 })
 
