@@ -105,6 +105,12 @@ client.on("messageCreate", async message => {
                     return message.reply("あなたにその権限はありません")
                 }
                 break;
+            case "error":
+                if(message.author.id == "888652878590406656"){
+                    throw args[0]
+                }else{
+                    return message.reply("あなたにその権限はありません")
+                }
 
             case "test":
                 console.log("反応あり");
@@ -189,7 +195,7 @@ client.on("messageCreate", async message => {
         }
     }catch(e){
         console.log(e.message)
-        return message.reply(e.message);
+        return message.reply(`${e.message}\n<@888652878590406656> エラー出たぞ？ﾃﾒｪちゃんとバグ確認しろしばくぞﾃﾒｪオラ`);
     }
 })
 
