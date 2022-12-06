@@ -49,11 +49,6 @@ client.on("messageCreate", async message => {
                 if (!args[0]) return message.reply("引数が無効です") //文字なし無視
                 return message.channel.send(args.join(" "));
                 break;
-            // case "img":
-            //     if (!message.attachments.size) return message.reply("画像がありません")
-            //     const files = message.attachments
-            //     return message.reply({ files: [files] })
-            //     break;
 
             case "ping":
                 const ping = new EmbedBuilder()
@@ -113,14 +108,6 @@ client.on("messageCreate", async message => {
                 }
                 break;
 
-                // case "imgc":
-                //     if(message.author.id == "888652878590406656"){
-                //         if (!message.attachments.size) return message.reply("画像がありません")
-                //         const files = message.attachments
-                //         return message.reply({ files: [files] })
-                //     }
-                //     break;
-
             case "test":
                 console.log("反応あり");
                 break;
@@ -175,6 +162,9 @@ client.on("messageCreate", async message => {
                     "圧縮されたい人います？",
                     "全員親子丼です",
                     "ん？",
+                    "気まぐれで親子丼をタイムアウトしました",
+                    "社畜カスさん",
+                    "このメッセージの後に最初に反応した方は社畜にします",
                     "そうそう、早く進捗報告してくださいね\nマンボウもどき",
                     `${d.getHours()}:${d.getMinutes()}になりました\n約束のブツを出してください`,
                     `親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`
