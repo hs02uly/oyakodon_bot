@@ -98,19 +98,12 @@ client.on("messageCreate", async message => {
                 break;
 
             case "sayc":
-                if(message.author.id == "888652878590406656"){
+                if(message.author.id == "888652878590406656"){ //ワシ専用コマンドですﾊﾟｧ
                     return client.channels.cache.get(args[0]).send(args[1])
-
                 }else{
                     return message.reply("あなたにその権限はありません")
                 }
                 break;
-            case "error":
-                if(message.author.id == "888652878590406656"){
-                    throw args[0]
-                }else{
-                    return message.reply("あなたにその権限はありません")
-                }
 
             case "test":
                 console.log("反応あり");
