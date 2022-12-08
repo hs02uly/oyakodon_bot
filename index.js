@@ -109,6 +109,10 @@ client.on("messageCreate", async message => {
                 console.log("反応あり");
                 break;
 
+            case "time":
+                return message.reply(`親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`)
+                break;
+
             case "okd":
                 const oyakodonM = [
                     "息の根が終了しました",
@@ -162,10 +166,10 @@ client.on("messageCreate", async message => {
                     "気まぐれで親子丼をタイムアウトしました",
                     "社畜カスさん",
                     // "黙れトマト",
-                    // "このメッセージの後に最初に反応した方は社畜にします", //これ以上配列増やしたらエラー
+                    "このメッセージの後に最初に反応した方は社畜にします",
                     "そうそう、早く進捗報告してくださいね\nマンボウもどき",
                     `${d.getHours()}:${d.getMinutes()}になりました\n約束のブツを出してください`,
-                    `親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`
+                    //これ以上(54以降)配列増やしたらエラー なんでや要素数関係ないやろ！33-4
                 ];
                 if(args[0] === "list"){
                     const okd = new EmbedBuilder()
