@@ -182,7 +182,7 @@ client.on("messageCreate", async message => {
                     return message.reply({embeds: [okd]});
                 }
                 if(!isNaN(args[0])){
-                    if (Math.trunc(args[0])-1 > oyakodonM.length || Math.trunc(args[0])-1 < 0) return message.reply("その数字は無効です")
+                    if (Math.trunc(args[0]) > oyakodonM.length || Math.trunc(args[0]) < 0) return message.reply("その数字は無効です")
                     return message.reply(oyakodonM[Math.trunc(args[0])-1])
                 }else{
                     return message.reply(oyakodonM[Math.floor(Math.random() * oyakodonM.length)]);
