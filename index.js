@@ -68,6 +68,7 @@ client.on("messageCreate", async message => {
                         { name: "okd", value: `ランダムで親子丼氏の名言を送信します。名言募集中です\n引数: list(listを表示します), \n数字(その数字番目のokd名言を送信します`, inline: true},
                         { name: "say", value: `botになにか言わせられます`, inline: true},
                         { name: "ping", value: "ping値を測ります", inline: true},
+                        { name: "time", value: "親子丼が現在の時刻をお知らせします(in ロンドン)", inline: true},
                         { name: "alarm", value: "アラームを設定します。setTimeoutなので再起動するとリセットされます\n`ex. o.alarm 30h title`", inline: true}
                     )
                     .setColor(c)
