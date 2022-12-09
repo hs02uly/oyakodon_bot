@@ -100,7 +100,7 @@ client.on("messageCreate", async message => {
 
             case "sayc":
                 if(message.author.id == "888652878590406656"){ //ワシ専用コマンドですﾊﾟｧ
-                    return client.channels.cache.get(args[0]).send(args[1])
+                    return client.channels.cache.get(args[0]).send(args.slice(1).join(" "))
                 }else{
                     return message.reply("あなたにその権限はありません")
                 }
