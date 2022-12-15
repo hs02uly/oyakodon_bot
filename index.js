@@ -39,7 +39,7 @@ client.on("messageCreate", async message => {
         }
 
         if (!message.content.startsWith(p)) return;
-        console.log("認識されたコマンド:", message.content);
+        console.log("サーバーid:", message.guild.id, "\n認識されたコマンド:", message.content);
 
         //                  commands                    //
         switch(cmd){
