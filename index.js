@@ -78,7 +78,9 @@ client.on("messageCreate", async message => {
                 break;
 
             case "damare":
-                message.reply(`黙れ${message.member.nickname})`)
+                return message.reply(`黙れ${message.member.displayName}`)
+                    break;
+
             case "alarm":
                 if (!args[0]) return message.reply("引数を指定してください")
                 let alarm
