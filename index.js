@@ -69,6 +69,7 @@ client.on("messageCreate", async message => {
                         { name: "say", value: "botになにか言わせられます", inline: true},
                         { name: "ping", value: "ping値を測ります", inline: true},
                         { name: "time", value: "親子丼が現在の時刻をお知らせします(in ロンドン)", inline: true},
+                        { name: "damare", value: "黙らせます", inline: true},
                         { name: "alarm", value: "アラームを設定します。setTimeoutなので再起動するとリセットされます\n`ex. o.alarm 30h title`", inline: true}
                     )
                     .setColor(c)
@@ -76,6 +77,8 @@ client.on("messageCreate", async message => {
                 return message.reply({embeds: [help]});
                 break;
 
+            case "damare":
+                message.reply(`黙れ${message.member.nickname})`)
             case "alarm":
                 if (!args[0]) return message.reply("引数を指定してください")
                 let alarm
@@ -119,7 +122,6 @@ client.on("messageCreate", async message => {
                     "息の根が終了しました",
                     "あ、勝手に慈悲受け取るマンです",
                     "は？",
-                    "黙れ",
                     "興奮しないでください",
                     ";;",
                     "えぇ.....(中の人)",
