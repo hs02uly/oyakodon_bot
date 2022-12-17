@@ -65,7 +65,7 @@ client.on("messageCreate", async message => {
                     .setTitle("Help/commands")
                     .setDescription("親子丼氏の許可のもと作成しています")
                     .addFields(
-                        { name: "okd", value: "ランダムで親子丼氏の名言を送信します。名言募集中です\n `ex. o.okd 3`\n` o.okd list`", inline: true},
+                        { name: "okd", value: "ランダムで親子丼氏の名言を送信します\n `ex. o.okd 3`\n` o.okd list`", inline: true},
                         { name: "say", value: "botになにか言わせられます", inline: true},
                         { name: "ping", value: "ping値を測ります", inline: true},
                         { name: "time", value: "親子丼が現在の時刻をお知らせします(in ロンドン)", inline: true},
