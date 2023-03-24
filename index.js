@@ -15,6 +15,7 @@ client.once("ready", () => {
     console.log(`起動しましたよ覚悟しなさい${new Date()}`)
     client.user.setPresence({ activities: [{ name: "o.help" }],
     status: "online" })
+    console.log(client.guilds.cache.size) //入ってる鯖数表示
 })
 
 const c = "#73efff"
@@ -197,7 +198,7 @@ client.on("messageCreate", async message => {
         }
     }catch(e){
         console.log(e.message)
-        return message.reply(`${e.message}\n<@888652878590406656> エラーが出ましたよ`);
+        return message.reply(`${e.message}`);
     }
 })
 
