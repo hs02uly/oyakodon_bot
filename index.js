@@ -13,7 +13,7 @@ const client = new Client({
 
 client.once("ready", () => {
     console.log(`起動しましたよ覚悟しなさい${new Date()}`)
-    client.user.setPresence({ activities: [{ name: "o.help" }],
+    client.user.setPresence({ activities: [{ name: `o.help | ${client.guilds.cache.size}Guilds` }],
     status: "online" })
     console.log(client.guilds.cache.size) //入ってる鯖数表示
 })
@@ -79,8 +79,11 @@ client.on("messageCreate", async message => {
                 break;
 
             case "damare":
+                message.another.timeout(5*1000, "damareコマンドを使ってしまったから。")
+                    .then(console.log)
+                    .catch(console.error);
                 return message.reply(`黙れ${message.member.displayName}`)
-                    break;
+                break;
 
             case "alarm":
                 if (!args[0]) return message.reply("引数を指定してください")
