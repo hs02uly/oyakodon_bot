@@ -115,10 +115,6 @@ client.on("messageCreate", async message => {
                 }
                 break;
 
-            case "test":
-                console.log("反応あり");
-                break;
-
             case "time":
                 return message.reply(`親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`)
                 break;
@@ -146,8 +142,6 @@ client.on("messageCreate", async message => {
                     "理解しました\nメンションされてませんが禿げさせます",
                     "親子丼Botが可哀想.....",
                     "全員が心にチャーシューを飼っているので全員チャーシューです",
-                    ":partying_face:",
-                    "シールさんも食べ物でしたね",
                     "完全にマンボウになるまでマンボウもどきと呼びます",
                     "すみません",
                     "現在進行形で社畜を募集しています",
@@ -176,17 +170,14 @@ client.on("messageCreate", async message => {
                     "吸引機は大人しくショタ吸ってればいいんだよ",
                     "このメッセージの後に最初に反応した方は社畜にします",
                     "そうそう、早く進捗報告してくださいね\nマンボウもどき",
-                    `${d.getHours()}:${d.getMinutes()}になりました\n約束のブツを出してください`,
-                    //これ以上(54以降)配列増やしたらエラー なんでや要素数関係ないやろ！33-4
+                    "ああ.....ああ.....",
+                    `${d.getHours()}:${d.getMinutes()}になりました\n約束のブツを出してください`
                 ];
                 if (args[0] === "list") {
                     const okd = new EmbedBuilder()
                         .setColor(c)
-                        .setTitle("一覧")
-                        .addFields({
-                            name: `現在${oyakodonM.length}の親子丼名言が保存されています\n絶賛募集中です`,
-                            value: oyakodonM.map(value => { return `${oyakodonM.indexOf(value) + 1}: ${value}` }).join("\n")
-                        });
+                        .setTitle("一覧/List\n現在${oyakodonM.length}個の迷言が保存されています。")
+                        .setDescription(oyakodonM.map(value => { return `${oyakodonM.indexOf(value) + 1}: ${value}` }).join("\n") ) //番号: 値
                     return message.reply({ embeds: [okd] });
                 }
                 if (!isNaN(args[0])) {
