@@ -176,7 +176,7 @@ client.on("messageCreate", async message => {
                 if (args[0] === "list") {
                     const okd = new EmbedBuilder()
                         .setColor(c)
-                        .setTitle("一覧/List\n現在${oyakodonM.length}個の迷言が保存されています。")
+                        .setTitle(`一覧/List\n現在${oyakodonM.length}個の迷言が保存されています。`)
                         .setDescription(oyakodonM.map(value => { return `${oyakodonM.indexOf(value) + 1}: ${value}` }).join("\n") ) //番号: 値
                     return message.reply({ embeds: [okd] });
                 }
