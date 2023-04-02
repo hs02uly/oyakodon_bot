@@ -17,7 +17,7 @@ client.once("ready", () => {
         activities: [{ name: `o.help | ${client.guilds.cache.size}Guilds` }],
         status: "online"
     })
-    console.log(client.guilds.cache.size) //入ってる鯖数表示
+    console.log(client.guilds.cache.map(guild => guild.name.join("\n"))) //
 })
 
 const c = "#73efff"
@@ -178,7 +178,7 @@ client.on("messageCreate", async message => {
                     const okd = new EmbedBuilder()
                         .setColor(c)
                         .setTitle(`一覧/List\n現在${oyakodonM.length}個の迷言が保存されています。`)
-                        .setDescription(oyakodonM.map(value => { return `${oyakodonM.indexOf(value) + 1}: ${value}` }).join("\n") ) //番号: 値
+                        .setDescription(oyakodonM.map(value => { return `${oyakodonM.indexOf(value) + 1}: ${value}` }).join("\n")) //番号: 値
                     return message.reply({ embeds: [okd] });
                 }
                 if (!isNaN(args[0])) {
