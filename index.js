@@ -17,7 +17,7 @@ client.once("ready", () => {
         activities: [{ name: `o.help | ${client.guilds.cache.size}Guilds` }],
         status: "online"
     })
-    console.log(client.guilds.cache.map(guild => guild.name.join("\n"))) //
+    console.log(client.guilds.cache.map(guild => guild.name).join("\n")) //入ってる鯖数表示
 })
 
 const c = "#73efff"
