@@ -112,9 +112,20 @@ client.on("messageCreate", async message => {
                 if (message.author.id == "888652878590406656") { //ワシ専用コマンドですﾊﾟｧ
                     return client.channels.cache.get(args[0]).send(args.slice(1).join(" "))
                 } else {
-                    return message.reply("あなたにその権限はありません")
+                    return message.reply("あなたにその権限はありません。覚悟しなさい")
                 }
                 break;
+
+                case "eval":
+                    if (message.author.id == "888652878590406656") {
+                        const result = eval(args.join(" "))
+                        const formattedResult = JSON.stringify(result, null, 2);
+                        const evalEmbed = new EmbedBuilder()
+                            .setDescription("```json\n" + formattedResult + "```")
+                        return message.reply({ embeds: [evalEmbed] })
+                    }else {
+                        return message.reply("あなたにその権限はありません。覚悟しなさい")
+                    }
 
             case "time":
                 return message.reply(`親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`)
