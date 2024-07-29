@@ -95,7 +95,7 @@ client.on("messageCreate", async message => {
                 if (isNaN(time) || !time) return message.reply("引数が無効です")
                 if (time > 999) return message.reply("値が大きすぎます")
 
-                const m = args[1]
+                const m = args.slice(1).join(" ")
 
                 if (uni.match(/s/)) alarm = time
                 if (uni.match(/m/)) alarm = time * 60
