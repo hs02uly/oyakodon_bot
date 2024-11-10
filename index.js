@@ -73,17 +73,11 @@ client.on("messageCreate", async message => {
                         { name: "say", value: "botになにか言わせられます", inline: true },
                         { name: "ping", value: "ping値を測ります", inline: true },
                         { name: "time", value: "親子丼が現在の時刻をお知らせします(in ロンドン)", inline: true },
-                        { name: "damare", value: "黙らせます", inline: true },
                         { name: "alarm", value: "アラームを設定します。setTimeoutなので再起動するとリセットされます\n`ex. o.alarm 30h title`", inline: true }
                     )
                     .setColor(c)
                     .setTimestamp()
                 return message.reply({ embeds: [help] });
-                break;
-
-            case "damare":
-                message.member.timeout(10 * 1000, "damareコマンドを使ってしまったから。")
-                return message.reply(`黙れ${message.member.displayName}`)
                 break;
 
             case "alarm":
@@ -109,7 +103,7 @@ client.on("messageCreate", async message => {
                 break;
 
             case "sayc":
-                if (message.author.id == "888652878590406656") { //ワシ専用コマンドですﾊﾟｧ
+                if (message.author.id == "888652878590406656") {
                     return client.channels.cache.get(args[0]).send(args.slice(1).join(" "))
                 } else {
                     return message.reply("あなたにその権限はありません。覚悟しなさい")
