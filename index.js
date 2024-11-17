@@ -1,5 +1,5 @@
 const http = require("http")
-http.createServer(function(req, res) {
+http.createServer(function (req, res) {
     res.write("online")
     res.end()
 }).listen(8080)
@@ -21,6 +21,7 @@ client.once("ready", () => {
 })
 
 const c = "#73efff"
+const admins = ["888652878590406656"]
 let args = []
 client.on("messageCreate", async message => {
     try {
@@ -54,7 +55,7 @@ client.on("messageCreate", async message => {
 
             case "ping":
                 const ping = new EmbedBuilder()
-                    .setTitle("Pong")
+                    .setTitle("Pong🏓")
                     .addFields(
                         { name: "WebSocket", value: `${client.ws.ping}ms`, inline: true },
                         { name: "コマンド受信", value: `${new Date() - message.createdTimestamp}ms`, inline: true }
@@ -72,8 +73,8 @@ client.on("messageCreate", async message => {
                         { name: "okd", value: "ランダムで親子丼氏の名言を送信します\n `ex. o.okd 3`\n` o.okd list`", inline: true },
                         { name: "say", value: "botになにか言わせられます", inline: true },
                         { name: "ping", value: "ping値を測ります", inline: true },
-                        { name: "time", value: "親子丼が現在の時刻をお知らせします(in ロンドン)", inline: true },
-                        { name: "alarm", value: "アラームを設定します。setTimeoutなので再起動するとリセットされます\n`ex. o.alarm 30h title`", inline: true }
+                        { name: "time", value: "親子丼が現在の時刻をお知らせします(in フランクフルト)", inline: true },
+                        { name: "alarm", value: "アラームを設定します。多少の誤差があります。\n`ex. o.alarm 7h おはよう`", inline: true }
                     )
                     .setColor(c)
                     .setTimestamp()
@@ -101,25 +102,6 @@ client.on("messageCreate", async message => {
                     message.channel.send(`通知: <@${message.author.id}> ${m}`)
                 }, alarm * 1000);
                 break;
-
-            case "sayc":
-                if (message.author.id == "888652878590406656") {
-                    return client.channels.cache.get(args[0]).send(args.slice(1).join(" "))
-                } else {
-                    return message.reply("あなたにその権限はありません。覚悟しなさい")
-                }
-                break;
-
-                case "eval":
-                    if (message.author.id == "888652878590406656") {
-                        const result = eval(args.join(" "))
-                        const formattedResult = JSON.stringify(result, null, 2);
-                        const evalEmbed = new EmbedBuilder()
-                            .setDescription("```json\n" + formattedResult + "```")
-                        return message.reply({ embeds: [evalEmbed] })
-                    }else {
-                        return message.reply("あなたにその権限はありません。覚悟しなさい")
-                    }
 
             case "time":
                 return message.reply(`親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`)
@@ -191,6 +173,26 @@ client.on("messageCreate", async message => {
                     return message.reply(oyakodonM[Math.trunc(args[0]) - 1])
                 } else {
                     return message.reply(oyakodonM[Math.floor(Math.random() * oyakodonM.length)]);
+                }
+
+            //SUDO COMMANDS//
+            case "sayc":
+                if (admins.includes(message.author.id)) {
+                    return client.channels.cache.get(args[0]).send(args.slice(1).join(" "))
+                } else {
+                    return message.reply("あなたにその権限はありません。覚悟しなさい")
+                }
+                break;
+
+            case "eval":
+                if (admins.includes(message.author.id)) {
+                    const result = eval(args.join(" "))
+                    const formattedResult = JSON.stringify(result, null, 2);
+                    const evalEmbed = new EmbedBuilder()
+                        .setDescription("```json\n" + formattedResult + "```")
+                    return message.reply({ embeds: [evalEmbed] })
+                } else {
+                    return message.reply("あなたにその権限はありません。覚悟しなさい")
                 }
             default:
                 return message.reply("コマンドが不明です");
