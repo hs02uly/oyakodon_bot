@@ -22,8 +22,11 @@ client.once("ready", () => {
 
 //メンションしないよ
 Message.prototype.safereply = function(options) {
-    return this.reply({ ...options, allowedMentions: {}})
-}
+    const allowed = { parse: [], repliedUser: false };
+    if (typeof options ==="string") return this.reply({ content: options, allowedMentions: allowed });
+    if (options && typeof options === "object") return this.reply({ ...options, allowedMentions: options.allowedMentions ?? allowed });
+    return this.reply({ content: String(options), allowedMentions: allowed });
+} //前のやとembedsおくれへんやないか
 
 const c = "#73efff"
 const admins = ["888652878590406656"] //ぼく
