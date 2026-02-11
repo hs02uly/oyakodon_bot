@@ -1,13 +1,13 @@
-// const http = require("http")
-// http.createServer(function (req, res) {
-//     res.write("online")
-//     res.end()
-// }).listen(8080)
+const http = require("http")
+http.createServer(function (req, res) {
+    res.write("online")
+    res.end()
+}).listen(8080)
 
-const { Client, EmbedBuilder, GatewayIntentBits, Partials, Message } = require("discord.js");
-const { Guilds, GuildMessages, MessageContent } = GatewayIntentBits;
+const { Client, EmbedBuilder, GatewayIntentBits, Partials, Message,ChannelType } = require("discord.js");
+const { Guilds, GuildMessages, MessageContent, GuildMembers} = GatewayIntentBits;
 const client = new Client({
-    "intents": [Guilds, GuildMessages, MessageContent],
+    "intents": [Guilds, GuildMessages, MessageContent, GuildMembers],
     "partials": [Partials.Channel]
 });
 
