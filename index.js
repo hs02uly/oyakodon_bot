@@ -11,7 +11,7 @@ const client = new Client({
     "partials": [Partials.Channel]
 });
 
-client.once("ready", () => {
+client.once("clientReady", () => {
     console.log(`起動しましたよ覚悟しなさい${new Date()}`)
     client.user.setPresence({
         activities: [{ name: `o.help`}],
@@ -194,7 +194,12 @@ client.on("messageCreate", async message => {
 
             case "eval":
                 if (admins.includes(message.author.id)) {
-                    const result = eval(args.join(" "))
+                    let result="";
+                    try {
+                        result = await eval(args.join(" "))
+                    } catch (error) {
+                        result = error.toString();
+                    }
                     const formattedResult = JSON.stringify(result, null, 2);
                     const evalEmbed = new EmbedBuilder()
                         .setDescription("```json\n" + formattedResult + "```")
@@ -202,6 +207,7 @@ client.on("messageCreate", async message => {
                 } else {
                     return message.safereply("あなたにその権限はありません。覚悟しなさい")
                 }
+                break;
             default:
                 return message.safereply("コマンドが不明です");
                 break;
