@@ -124,16 +124,16 @@ client.on("messageCreate", async message => {
                 const voice = member.voice?.channel ? member.voice.channel.name : "未接続";
 
 
-                const basicinfo=`名前:**${user.tag}**(${user.id})
-                状態:${presenceJP}
-                作成日時:${formatDate(createdAtDate)} (${timeAgo(createdAtDate)})
-                ニックネーム:${member.nickname ?? "なし"}
-                アクティビティ:${activities}`
+                const basicinfo=`名前: **${user.tag}**(${user.id})
+                状態: ${presenceJP}
+                作成日時: ${formatDate(createdAtDate)} (${timeAgo(createdAtDate)})
+                ニックネーム: ${member.nickname ?? "なし"}
+                アクティビティ: ${activities}`
 
-                const serverinfo=`参加日時:${formatDate(joinedAtDate)} (${timeAgo(joinedAtDate)})
-                ボイスチャンネル:${voice}
-                役職:${roles}
-                権限（一部）:${perms}`
+                const serverinfo=`参加日時: ${formatDate(joinedAtDate)} (${timeAgo(joinedAtDate)})
+                ボイスチャンネル: ${voice}
+                役職: ${roles}
+                権限（一部）: ${perms}`
                 const embed = new EmbedBuilder()
                     .setTitle(`ユーザー情報`)
                     .setThumbnail(avatar)
