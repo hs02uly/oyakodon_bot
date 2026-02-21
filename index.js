@@ -48,6 +48,7 @@ client.on("messageCreate", async message => {
             if (message.content.includes("カスコード")) return message.safereply("もうやめて！梅干しのライフはもう0よ！！");
             if (message.content.includes("過疎")) return message.safereply("過疎超えて虚空");
             if (message.mentions.users.has(client.user.id)) return message.safereply("メンションしないでください\n禿げさせますよ");
+            return;
         }
 
         const cmd = message.content.slice(prefix.length).split(" ")[0]
