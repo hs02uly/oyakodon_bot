@@ -29,18 +29,17 @@ Message.prototype.safereply = function(options) {
 } //前のやとembedsおくれへんやないか
 
 const c = "#73efff"
-const admins = ["888652878590406656"] //ぼく
+const ADMIN_ID = "888652878590406656" //ぼく
+const prefix = "o."
 let args = []
 client.on("messageCreate", async message => {
-    try {
-        let d = new Date();
-        const p = "o."
-        const cmd = message.content.slice(2).split(" ")[0]
-        args = message.content.split(" ").slice(1)
+    let today = new Date();
+    const admin = await client.users.fetch(ADMIN_ID);
 
-        if (message.author.bot) return;
-        //                  oyakodon                    //
-        if (!message.content.startsWith(p)) {
+    if (message.author.bot) return;
+    if (!message.guild) return
+    try {      
+        if (!message.content.startsWith(prefix)) {
             if (message.content.includes("|​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|")) return message.safereply("私には通用しませんよ");
             if (message.content.includes("youtube" || "YouTube" || "ニコ動")) return message.safereply("投稿者としての自覚はないんか？");
             if (message.content.includes("彼女" || "食べ")) return message.safereply("よかったら僕を食べませんか");
@@ -51,18 +50,22 @@ client.on("messageCreate", async message => {
             if (message.mentions.users.has(client.user.id)) return message.safereply("メンションしないでください\n禿げさせますよ");
         }
 
-        if (!message.content.startsWith(p)) return;
-        console.log("サーバーid:", message.guild.id, "\n認識されたコマンド:", message.content);
+        const cmd = message.content.slice(prefix.length).split(" ")[0]
+        args = message.content.split(" ").slice(1)
 
         //                  commands                    //
+        const sudocommands = ["eval"]
+        if (sudocommands.includes(cmd) && message.author !== admin) {
+            return message.safereply("あなたにその権限はありません。覚悟しなさい")
+        }
         switch (cmd) {
-            case "say":
-                if (!args[0]) return message.safereply("引数が無効です") //文字なし無視
+            case "echo":{
+                if (!args[0]) return message.safereply("引数が無効です")
                 return message.channel.send(args.join(" "));
-                break;
+            }
 
-            case "ping":
-                const ping = new EmbedBuilder()
+            case "ping":{
+                const embed = new EmbedBuilder()
                     .setTitle("Pong🏓")
                     .addFields(
                         { name: "WebSocket", value: `${client.ws.ping}ms`, inline: true },
@@ -70,26 +73,81 @@ client.on("messageCreate", async message => {
                     )
                     .setColor(c)
                     .setTimestamp();
-                return message.safereply({ embeds: [ping] });
-                break;
-
-            case "help":
-                const help = new EmbedBuilder()
+                return message.safereply({ embeds: [embed] });
+            }
+            case "help":{
+                const embed = new EmbedBuilder()
                     .setTitle("Help/commands")
-                    .setDescription(`全てコマンドのprefixは\`${p}\`です。`)
+                    .setDescription(`全てコマンドのprefixは\`${prefix}\`です。`)
                     .addFields(
                         { name: "okd", value: "ランダムで親子丼氏の名言を送信します\n `ex. o.okd 3`\n` o.okd list`", inline: true },
-                        { name: "say", value: "botになにか言わせられます", inline: true },
+                        { name: "echo", value: "botになにか言わせられます", inline: true },
+                        { name: "user", value: "user情報を表示します", inline: true },
                         { name: "ping", value: "ping値を測ります", inline: true },
                         { name: "time", value: "親子丼が現在の時刻をお知らせします(in フランクフルト)", inline: true },
                         { name: "alarm", value: "アラームを設定します。多少の誤差があります。\n`ex. o.alarm 7h おはよう`", inline: true }
                     )
                     .setColor(c)
                     .setTimestamp()
-                return message.safereply({ embeds: [help] });
-                break;
+                return message.safereply({ embeds: [embed] });
+                }
+            case "user": { //made by ちゃっぴー
+                const user = message.author;
+                const member = message.member;
+                if (!member) return message.safereply("ギルドメンバー情報が取得できませんでした");
+                const avatar = user.displayAvatarURL ? user.displayAvatarURL({ dynamic: true, size: 1024 }) : null;
+                const roles = member.roles && member.roles.cache ? member.roles.cache.filter(r => r.id !== message.guild.id).map(r => "@"+r.name).join(", ") : "なし";
+                const permArr = member.permissions ? member.permissions.toArray() : [];
+                const perms = permArr.includes("Administrator") ? "Administrator" : (permArr.slice(0, 10).join(", ") || "なし");
+                const joinedAtDate = member.joinedAt || null;
+                const createdAtDate = user.createdAt || null;
+                const formatDate = (d) => d ? d.toLocaleString("sv-SE") : "不明"; //スウェーデン
+                const timeAgo = (d) => {
+                    if (!d) return "不明";
+                    const now = Date.now();
+                    const diff = Math.floor((now - d.getTime()) / 1000);
+                    if (diff < 60) return `${diff}秒前`;
+                    const mins = Math.floor(diff / 60);
+                    if (mins < 60) return `${mins}分前`;
+                    const hours = Math.floor(mins / 60);
+                    if (hours < 24) return `${hours}時間前`;
+                    const days = Math.floor(hours / 24);
+                    if (days < 30) return `${days}日前`;
+                    const months = Math.floor(days / 30);
+                    if (months < 12) return `${months}ヶ月前`;
+                    const years = Math.floor(months / 12);
+                    return `${years}年前`;
+                };
+                const presence = member.presence?.status ?? "offline";
+                const presenceJP = presence === "online" ? "🟢オンライン" : presence === "idle" ? "🟡退席中" : presence === "dnd" ? "🔴取り込み中" : "◼️オフライン";
+                const activities = member.presence?.activities?.map(a => a.name).join(", ") || "なし";
+                const voice = member.voice?.channel ? member.voice.channel.name : "未接続";
 
-            case "alarm":
+
+                const basicinfo=`名前:**${user.tag}**(${user.id})
+                状態:${presenceJP}
+                作成日時:${formatDate(createdAtDate)} (${timeAgo(createdAtDate)})
+                ニックネーム:${member.nickname ?? "なし"}
+                アクティビティ:${activities}`
+
+                const serverinfo=`参加日時:${formatDate(joinedAtDate)} (${timeAgo(joinedAtDate)})
+                ボイスチャンネル:${voice}
+                役職:${roles}
+                権限（一部）:${perms}`
+                const embed = new EmbedBuilder()
+                    .setTitle(`ユーザー情報`)
+                    .setThumbnail(avatar)
+                    .addFields(
+                        { name: "基本情報", value:basicinfo, inline: false },
+                        { name: "サーバー情報", value: serverinfo, inline: false },
+                    )
+                    .setColor(c)
+                    .setTimestamp();
+                
+                return message.safereply({ embeds: [embed] });
+            }
+
+            case "alarm":{
                 if (!args[0]) return message.safereply("引数を指定してください")
                 let alarm
                 const uni = args[0].slice(-1)
@@ -107,15 +165,14 @@ client.on("messageCreate", async message => {
 
                 message.safereply(`アラームを${args[0]}後に設定しました`)
                 setTimeout(() => {
-                    message.channel.send(`通知: <@${message.author.id}> ${m}`)
+                    return message.channel.send(`通知: <@${message.author.id}> ${m}`)
                 }, alarm * 1000);
-                break;
+            }
 
-            case "time":
-                return message.safereply(`親子丼Botが${d.getHours()}時${d.getMinutes()}分をお知らせします`)
-                break;
-
-            case "okd":
+            case "time":{
+                return message.safereply(`親子丼Botが${today.getHours()}時${today.getMinutes()}分をお知らせします`)
+            }
+            case "okd":{
                 const oyakodonM = [
                     "息の根が終了しました",
                     "あ、勝手に慈悲受け取るマンです",
@@ -167,14 +224,14 @@ client.on("messageCreate", async message => {
                     "このメッセージの後に最初に反応した方は社畜にします",
                     "そうそう、早く進捗報告してくださいね\nマンボウもどき",
                     "ああ.....ああ.....",
-                    `${d.getHours()}:${d.getMinutes()}になりました\n約束のブツを出してください`
+                    `${today.getHours()}:${today.getMinutes()}になりました\n約束のブツを出してください`
                 ];
                 if (args[0] === "list") {
-                    const okd = new EmbedBuilder()
+                    const embed = new EmbedBuilder()
                         .setColor(c)
                         .setTitle(`一覧/List\n現在${oyakodonM.length}個の迷言が保存されています。`)
                         .setDescription(oyakodonM.map(value => { return `${oyakodonM.indexOf(value) + 1}: ${value}` }).join("\n")) //番号: 値
-                    return message.safereply({ embeds: [okd] });
+                    return message.safereply({ embeds: [embed] });
                 }
                 if (!isNaN(args[0])) {
                     if (Math.trunc(args[0]) > oyakodonM.length || Math.trunc(args[0]) < 1) return message.safereply("その数字は無効です")
@@ -182,35 +239,23 @@ client.on("messageCreate", async message => {
                 } else {
                     return message.safereply(oyakodonM[Math.floor(Math.random() * oyakodonM.length)]);
                 }
+            }
 
-            //SUDO COMMANDS//
-            // case "sayc":
-            //     if (admins.includes(message.author.id)) {
-            //         return client.channels.cache.get(args[0]).send(args.slice(1).join(" "))
-            //     } else {
-            //         return message.safereply("あなたにその権限はありません。覚悟しなさい")
-            //     }
-            //     break;
-
-            case "eval":
-                if (admins.includes(message.author.id)) {
-                    let result="";
-                    try {
-                        result = await eval(args.join(" "))
-                    } catch (error) {
-                        result = error.toString();
-                    }
-                    const formattedResult = JSON.stringify(result, null, 2);
-                    const evalEmbed = new EmbedBuilder()
-                        .setDescription("```json\n" + formattedResult + "```")
-                    return message.safereply({ embeds: [evalEmbed] })
-                } else {
-                    return message.safereply("あなたにその権限はありません。覚悟しなさい")
+            case "eval":{
+                let result="";
+                try {
+                    result = await eval(args.join(" "))
+                } catch (error) {
+                    result = error.toString();
                 }
-                break;
+                const formattedResult = JSON.stringify(result, null, 2);
+                const embed = new EmbedBuilder()
+                    .setTitle("Results")
+                    .setDescription("```json\n" + formattedResult + "```")
+                return message.safereply({ embeds: [embed] })
+            }
             default:
                 return message.safereply("コマンドが不明です");
-                break;
         }
     } catch (e) {
         console.log(e.message)
