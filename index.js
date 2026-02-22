@@ -11,11 +11,11 @@ const client = new Client({
     "partials": [Partials.Channel]
 });
 
-client.once("clientReady", () => {
+client.once("ready", () => {
     console.log(`起動しましたよ覚悟しなさい${new Date()}`)
     client.user.setPresence({
         activities: [{ name: `o.help`}],
-        status: "online"
+        status: "idle"
     })
     console.log(client.guilds.cache.map(guild => guild.name).join("\n"))
 })
