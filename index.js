@@ -86,7 +86,7 @@ client.on("messageCreate", async message => {
                         { name: "user", value: "user情報を表示します", inline: true },
                         { name: "ping", value: "ping値を測ります", inline: true },
                         { name: "time", value: "親子丼が現在の時刻をお知らせします(in フランクフルト)", inline: true },
-                        { name: "alarm", value: "アラームを設定します。多少の誤差があります。\n`ex. o.alarm 7h おはよう`", inline: true }
+                        { name: "alarm / push / p", value: "アラームを設定します。多少の誤差があります。\n`ex. o.push 7h おはよう`", inline: true }
                     )
                     .setColor(c)
                     .setTimestamp()
@@ -147,7 +147,8 @@ client.on("messageCreate", async message => {
                 
                 return message.safereply({ embeds: [embed] });
             }
-
+            case "p":
+            case "push":
             case "alarm":{
                 if (!args[0]) return message.safereply("引数を指定してください")
                 let alarm
