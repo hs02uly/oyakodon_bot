@@ -164,10 +164,11 @@ client.on("messageCreate", async message => {
                 if (uni.match(/h/)) alarm = time * 3600
                 if (!uni.match(/h|m|s/)) return message.safereply("なんだその単位は")
 
-                message.safereply(`アラームを${args[0]}後に設定しました`)
+                message.safereply(`アラームを${args[0]}後に設定しました`) //r
                 setTimeout(() => {
-                    return message.channel.send(`通知: <@${message.author.id}> ${m}`)
+                    message.channel.send(`通知: <@${message.author.id}> ${m}`)
                 }, alarm * 1000);
+                break;
             }
 
             case "time":{
